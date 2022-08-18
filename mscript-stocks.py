@@ -28,7 +28,7 @@ def parse_args():
     feature_parser = parser.add_mutually_exclusive_group(required=False)
     feature_parser.add_argument('--supports_two_projector', dest='two_projector', action='store_true')
     feature_parser.add_argument('--single_proj', dest='two_projector', action='store_false')
-    parser.set_defaults(two_projector=False)
+    parser.set_defaults(two_projector=True)
 
     feature_parser = parser.add_mutually_exclusive_group(required=False)
     feature_parser.add_argument('--film', dest='matte', action='store_false')
@@ -56,6 +56,15 @@ def writeone_holdtwo(hold_count):
         text.append('PF')
 
     writeprojf()
+    text.append('\n')
+
+def writetwo_holdone(hold_count):
+    text.append('#HOLD PROJ ONE ' + str(hold_count) + ' \n')
+    for h in range(hold_count):
+        text.append('CF')
+        text.append('P2F')
+
+    text.append('PF')
     text.append('\n')
 
 def writeprojf():
@@ -106,7 +115,8 @@ def main():
 
 	for s in steps:
 		if(args.matte):
-			writeone_holdtwo(s)
+			# writeone_holdtwo(s)
+			writetwo_holdone(s)
 		else:
 			writehold_one(s)
 
